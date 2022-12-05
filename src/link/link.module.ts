@@ -3,7 +3,7 @@ import { LinkService } from './link.service';
 import { LinkController } from './link.controller';
 
 @Module({
-  controllers: [LinkController],
-  providers: [LinkService]
+    controllers: [LinkController],
+    providers: [LinkService],
 })
 export class LinkModule {}

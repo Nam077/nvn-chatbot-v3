@@ -5,30 +5,30 @@ import { UpdateLinkDto } from './dto/update-link.dto';
 
 @Controller('link')
 export class LinkController {
-  constructor(private readonly linkService: LinkService) {}
+    constructor(private readonly linkService: LinkService) {}
 
-  @Post()
-  create(@Body() createLinkDto: CreateLinkDto) {
-    return this.linkService.create(createLinkDto);
-  }
+    @Post()
+    create(@Body() createLinkDto: CreateLinkDto) {
+        return this.linkService.create(createLinkDto);
+    }
 
-  @Get()
-  findAll() {
-    return this.linkService.findAll();
-  }
+    @Get()
+    findAll() {
+        return this.linkService.findAll();
+    }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.linkService.findOne(+id);
-  }
+    @Get(':id')
+    findOne(@Param('id') id: string) {
+        return this.linkService.findOne(+id);
+    }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateLinkDto: UpdateLinkDto) {
-    return this.linkService.update(+id, updateLinkDto);
-  }
+    @Patch(':id')
+    update(@Param('id') id: string, @Body() updateLinkDto: UpdateLinkDto) {
+        return this.linkService.update(+id, updateLinkDto);
+    }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.linkService.remove(+id);
-  }
+    @Delete(':id')
+    remove(@Param('id') id: string) {
+        return this.linkService.remove(+id);
+    }
 }

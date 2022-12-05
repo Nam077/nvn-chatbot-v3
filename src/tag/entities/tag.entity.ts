@@ -10,12 +10,6 @@ export class Tag extends Model<Tag> {
     @Column({ allowNull: false, comment: 'This is a tag name' })
     name: string;
 
-    @Column({ allowNull: true, comment: 'This is a tag description', type: DataType.TEXT('tiny') })
-    description: string;
-
-    @Column({ allowNull: true, comment: 'This is a tag slug' })
-    slug: string;
-
     @BelongsToMany(() => Font, () => FontTag)
     fonts: Font[];
 }

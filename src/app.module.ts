@@ -17,8 +17,8 @@ import { BanModule } from './ban/ban.module';
 import { CommunicationModule } from './communication/communication.module';
 import { MessageModule } from './message/message.module';
 import { LinkModule } from './link/link.module';
-import { ConfigModule } from './config/config.module';
-import { Config } from './config/entities/config.entity';
+import { ConfigsModule } from './config/config.module';
+import { Configs } from './config/entities/config.entity';
 import { Font } from './font/entities/font.entity';
 import { FontMessage } from './through/entities/font-message.entity';
 import { Link } from './link/entities/link.entity';
@@ -38,9 +38,12 @@ import { Key } from './key/entities/key.entity';
 import { FontKey } from './through/entities/font-key.entity';
 import { CommunicationImage } from './through/entities/communication-image.entity';
 import { MessengerModule } from './messenger/messenger.module';
+import { ChatModule } from './chat/chat.module';
+import { CommunicationKey } from './through/entities/communication-key.entity';
 
 @Module({
     imports: [
+        ConfigsModule,
         UserModule,
         AuthModule,
         KeyModule,
@@ -60,7 +63,7 @@ import { MessengerModule } from './messenger/messenger.module';
             database: 'nvn-chat-bot',
             models: [
                 User,
-                Config,
+                Configs,
                 Link,
                 Key,
                 Message,
@@ -73,6 +76,7 @@ import { MessengerModule } from './messenger/messenger.module';
                 Communication,
                 CommunicationMessage,
                 CommunicationImage,
+                CommunicationKey,
                 FontMessage,
                 FontCategory,
                 FontTag,
@@ -82,11 +86,12 @@ import { MessengerModule } from './messenger/messenger.module';
             ],
             autoLoadModels: true,
             synchronize: true,
+            logging: false,
         }),
         MessageModule,
         LinkModule,
-        ConfigModule,
         MessengerModule,
+        ChatModule,
     ],
     controllers: [AppController],
     providers: [

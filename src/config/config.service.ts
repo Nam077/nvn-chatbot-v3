@@ -1,26 +1,80 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateConfigDto } from './dto/create-config.dto';
 import { UpdateConfigDto } from './dto/update-config.dto';
+import { InjectModel } from '@nestjs/sequelize';
+import { Configs } from './entities/config.entity';
 
 @Injectable()
-export class ConfigService {
-  create(createConfigDto: CreateConfigDto) {
-    return 'This action adds a new config';
-  }
+export class ConfigsService {
+    constructor(@InjectModel(Configs) private configModel: typeof Configs) {}
 
-  findAll() {
-    return `This action returns all config`;
-  }
+    async create(createConfigDto: CreateConfigDto): Promise<Configs> {
+        const [config, isCreated] = await this.configModel.findOrCreate({
+            where: { name: createConfigDto.name },
+            defaults: { value: createConfigDto.value },
+        });
+        if (!isCreated) {
+            throw new HttpException('Config already exists', HttpStatus.BAD_REQUEST);
+        }
+        return config;
+    }
 
-  findOne(id: number) {
-    return `This action returns a #${id} config`;
-  }
+    async findAll(): Promise<Configs[]> {
+        return await this.configModel.findAll();
+    }
 
-  update(id: number, updateConfigDto: UpdateConfigDto) {
-    return `This action updates a #${id} config`;
-  }
+    async findOne(id: number): Promise<Configs> {
+        return await this.configModel.findOne({ where: { id } });
+    }
 
-  remove(id: number) {
-    return `This action removes a #${id} config`;
-  }
+    async update(id: number, updateConfigDto: UpdateConfigDto): Promise<Configs> {
+        const config = await this.findOne(id);
+        if (!config) {
+            throw new HttpException('Config not found', HttpStatus.NOT_FOUND);
+        }
+        if (updateConfigDto.name !== config.name) {
+            const configByName = await this.getConfigByName(updateConfigDto.name);
+            if (configByName) {
+                throw new HttpException('Config already exists', HttpStatus.BAD_REQUEST);
+            }
+        }
+        return await config.update(updateConfigDto);
+    }
+
+    async remove(id: number): Promise<void> {
+        const config = await this.findOne(id);
+        if (!config) {
+            throw new HttpException('Config not found', HttpStatus.NOT_FOUND);
+        }
+        await config.destroy();
+    }
+
+    async getConfigByName(name: string): Promise<Configs> {
+        return await this.configModel.findOne({ where: { name } });
+    }
+
+    async getConfigBoolean(name: string): Promise<boolean> {
+        const value = await this.getConfigString(name);
+        return value === 'true';
+    }
+
+    public async getPageAccessToken(): Promise<string> {
+        return await this.getConfigString('PAGE_ACCESS_TOKEN');
+    }
+
+    public async getConfigString(name: string): Promise<string> {
+        let config = await this.configModel.findOne({ where: { name } });
+        if (!config) {
+            config = await this.makeConfig(name);
+        }
+        return String(config.value);
+    }
+
+    async makeConfig(name: string): Promise<Configs> {
+        const configCreatDto: CreateConfigDto = {
+            name,
+            value: '0',
+        };
+        return await this.create(configCreatDto);
+    }
 }

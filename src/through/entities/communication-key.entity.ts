@@ -24,7 +24,7 @@ export class CommunicationKey extends Model<CommunicationKey> {
     communication: Communication;
 
     @ForeignKey(() => Key)
-    @Column({ type: DataType.INTEGER, comment: 'This is a key id' })
+    @Column({ type: DataType.INTEGER, comment: 'This is a key id', unique: true })
     keyId: number;
 
     @BelongsTo(() => Key, 'keyId')

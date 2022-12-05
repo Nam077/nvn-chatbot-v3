@@ -4,23 +4,23 @@ import { UpdateFontDto } from './dto/update-font.dto';
 
 @Injectable()
 export class FontService {
-  create(createFontDto: CreateFontDto) {
-    return 'This action adds a new font';
-  }
+    create(createFontDto: CreateFontDto) {
+        return 'This action adds a new font';
+    }
 
-  findAll() {
-    return `This action returns all font`;
-  }
+    findAll() {
+        return `This action returns all font`;
+    }
 
-  findOne(id: number) {
-    return `This action returns a #${id} font`;
-  }
+    findOne(id: number) {
+        return `This action returns a #${id} font`;
+    }
 
-  update(id: number, updateFontDto: UpdateFontDto) {
-    return `This action updates a #${id} font`;
-  }
+    update(id: number, updateFontDto: UpdateFontDto) {
+        return `This action updates a #${id} font`;
+    }
 
-  remove(id: number) {
-    return `This action removes a #${id} font`;
-  }
+    remove(id: number) {
+        return `This action removes a #${id} font`;
+    }
 }
