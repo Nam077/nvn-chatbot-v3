@@ -2,9 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { TagService } from './tag.service';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 @ApiTags('Tag')
 @Controller('tag')
+@ApiBearerAuth()
 export class TagController {
     constructor(private readonly tagService: TagService) {}
 

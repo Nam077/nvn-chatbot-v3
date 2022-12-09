@@ -2,9 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { FoodService } from './food.service';
 import { CreateFoodDto } from './dto/create-food.dto';
 import { UpdateFoodDto } from './dto/update-food.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 @ApiTags('Food')
 @Controller('food')
+@ApiBearerAuth()
 export class FoodController {
     constructor(private readonly foodService: FoodService) {}
 

@@ -1,10 +1,11 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { MessengerService } from './messenger.service';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { IsPublic } from '../common/decorators/auth.decorator';
 
 @ApiTags('Messenger')
 @Controller('messenger')
+@ApiBearerAuth()
 export class MessengerController {
     constructor(private readonly messengerService: MessengerService) {}
 

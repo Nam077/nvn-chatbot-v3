@@ -1,26 +1,53 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateImageDto } from './dto/create-image.dto';
 import { UpdateImageDto } from './dto/update-image.dto';
+import { Image } from './entities/image.entity';
+import { InjectModel } from '@nestjs/sequelize';
 
 @Injectable()
 export class ImageService {
-    create(createImageDto: CreateImageDto) {
-        return 'This action adds a new image';
+    constructor(@InjectModel(Image) private imageModel: typeof Image) {}
+
+    async create(createImageDto: CreateImageDto): Promise<Image> {
+        const [image, created] = await this.imageModel.findOrCreate({
+            where: {
+                name: createImageDto.name,
+            },
+            defaults: createImageDto,
+        });
+        return image;
     }
 
-    findAll() {
-        return `This action returns all image`;
+    async findAll(): Promise<Image[]> {
+        return this.imageModel.findAll();
     }
 
-    findOne(id: number) {
-        return `This action returns a #${id} image`;
+    async findOne(id: number): Promise<Image> {
+        return this.imageModel.findOne({ where: { id } });
     }
 
-    update(id: number, updateImageDto: UpdateImageDto) {
-        return `This action updates a #${id} image`;
+    async update(id: number, updateImageDto: UpdateImageDto): Promise<Image> {
+        const image = await this.findOne(id);
+        if (image) {
+            return image.update(updateImageDto);
+        }
+        throw new HttpException('Image not found', HttpStatus.NOT_FOUND);
     }
 
-    remove(id: number) {
-        return `This action removes a #${id} image`;
+    async remove(id: number): Promise<Image> {
+        const image = await this.findOne(id);
+        if (image) {
+            await image.destroy();
+            return image;
+        }
+        throw new HttpException('Image not found', HttpStatus.NOT_FOUND);
+    }
+
+    async findAllByIds(image_ids: string[]): Promise<Image[]> {
+        return this.imageModel.findAll({
+            where: {
+                id: image_ids,
+            },
+        });
     }
 }

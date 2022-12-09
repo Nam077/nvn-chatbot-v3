@@ -2,9 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { BanService } from './ban.service';
 import { CreateBanDto } from './dto/create-ban.dto';
 import { UpdateBanDto } from './dto/update-ban.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 @ApiTags('Ban')
 @Controller('ban')
+@ApiBearerAuth()
 export class BanController {
     constructor(private readonly banService: BanService) {}
 

@@ -2,8 +2,11 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ConfigsService } from './config.service';
 import { CreateConfigDto } from './dto/create-config.dto';
 import { UpdateConfigDto } from './dto/update-config.dto';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('config')
+@ApiBearerAuth()
+@ApiTags('Config')
 export class ConfigController {
     constructor(private readonly configsService: ConfigsService) {}
 

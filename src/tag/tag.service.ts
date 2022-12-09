@@ -54,4 +54,12 @@ export class TagService {
         }
         await tag.destroy();
     }
+
+    async findAllByIds(tag_ids: string[]): Promise<Tag[]> {
+        return await this.tagModel.findAll({
+            where: {
+                id: tag_ids,
+            },
+        });
+    }
 }

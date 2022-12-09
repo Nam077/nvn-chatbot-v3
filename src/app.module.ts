@@ -40,6 +40,7 @@ import { CommunicationImage } from './through/entities/communication-image.entit
 import { MessengerModule } from './messenger/messenger.module';
 import { ChatModule } from './chat/chat.module';
 import { CommunicationKey } from './through/entities/communication-key.entity';
+import { ListFontModule } from './list-font/list-font.module';
 
 @Module({
     imports: [
@@ -92,14 +93,15 @@ import { CommunicationKey } from './through/entities/communication-key.entity';
         LinkModule,
         MessengerModule,
         ChatModule,
+        ListFontModule,
     ],
     controllers: [AppController],
     providers: [
         AppService,
-        {
-            provide: APP_GUARD,
-            useClass: AtGuard,
-        },
+        // {
+        //     provide: APP_GUARD,
+        //     useClass: AtGuard,
+        // },
     ],
 })
 export class AppModule {}

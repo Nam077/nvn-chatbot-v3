@@ -1,4 +1,4 @@
-import { Model, Table, Column, DataType, AfterFind } from 'sequelize-typescript';
+import { Model, Table, Column, DataType } from 'sequelize-typescript';
 
 @Table({ tableName: 'config', timestamps: true, updatedAt: true, comment: 'This is a config table' })
 export class Configs extends Model<Configs> {

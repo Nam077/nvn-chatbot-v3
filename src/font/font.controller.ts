@@ -2,9 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { FontService } from './font.service';
 import { CreateFontDto } from './dto/create-font.dto';
 import { UpdateFontDto } from './dto/update-font.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 @Controller('font')
 @ApiTags('Font')
+@ApiBearerAuth()
 export class FontController {
     constructor(private readonly fontService: FontService) {}
 

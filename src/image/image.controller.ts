@@ -2,9 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ImageService } from './image.service';
 import { CreateImageDto } from './dto/create-image.dto';
 import { UpdateImageDto } from './dto/update-image.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 @ApiTags('Image')
 @Controller('image')
+@ApiBearerAuth()
 export class ImageController {
     constructor(private readonly imageService: ImageService) {}
 

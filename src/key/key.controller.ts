@@ -2,10 +2,11 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { KeyService } from './key.service';
 import { CreateKeyDto } from './dto/create-key.dto';
 import { UpdateKeyDto } from './dto/update-key.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Key')
 @Controller('key')
+@ApiBearerAuth()
 export class KeyController {
     constructor(private readonly keyService: KeyService) {}
 

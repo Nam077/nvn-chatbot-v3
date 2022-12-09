@@ -1,4 +1,4 @@
-import { Column, DataType, Model, BelongsToMany, Table } from 'sequelize-typescript';
+import { Column, DataType, Model, BelongsToMany, Table, BeforeCreate, BeforeUpdate } from 'sequelize-typescript';
 import { Category } from '../../category/entities/category.entity';
 import { FontCategory } from '../../through/entities/font-category.entity';
 import { Image } from '../../image/entities/image.entity';
@@ -9,6 +9,10 @@ import { Link } from '../../link/entities/link.entity';
 import { FontLink } from '../../through/entities/font-link.entity';
 import { Message } from '../../message/entities/message.entity';
 import { FontMessage } from '../../through/entities/font-message.entity';
+import { FontKey } from '../../through/entities/font-key.entity';
+import { Key } from '../../key/entities/key.entity';
+import { StringProvider } from '../../providers/string.provider';
+// on delete cascade
 
 @Table({ tableName: 'fonts', timestamps: true, updatedAt: true, comment: 'This is a font table' })
 export class Font extends Model<Font> {
@@ -27,6 +31,11 @@ export class Font extends Model<Font> {
     @Column({ allowNull: false, comment: 'This is a font post_url', type: DataType.TEXT('tiny') })
     post_url: string;
 
+    // on delete cascade
+
+    @BelongsToMany(() => Key, () => FontKey)
+    keys: Key[];
+
     @BelongsToMany(() => Category, () => FontCategory)
     categories: Category[];
 
@@ -41,4 +50,10 @@ export class Font extends Model<Font> {
 
     @BelongsToMany(() => Message, () => FontMessage)
     messages: Message[];
+
+    @BeforeCreate
+    @BeforeUpdate
+    static async createSlug(font: Font) {
+        font.slug = StringProvider.slugify(font.name);
+    }
 }

@@ -55,7 +55,7 @@ export class ConfigsService {
 
     async getConfigBoolean(name: string): Promise<boolean> {
         const value = await this.getConfigString(name);
-        return value === 'true';
+        return value === '1';
     }
 
     public async getPageAccessToken(): Promise<string> {
@@ -76,5 +76,13 @@ export class ConfigsService {
             value: '0',
         };
         return await this.create(configCreatDto);
+    }
+
+    async updateConfig(name: string, value: string): Promise<Configs> {
+        const config = await this.getConfigByName(name);
+        if (!config) {
+            throw new HttpException('Config not found', HttpStatus.NOT_FOUND);
+        }
+        return await config.update({ value });
     }
 }

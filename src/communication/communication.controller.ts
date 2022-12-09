@@ -2,9 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { CommunicationService } from './communication.service';
 import { CreateCommunicationDto } from './dto/create-communication.dto';
 import { UpdateCommunicationDto } from './dto/update-communication.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 @ApiTags('Communication')
 @Controller('communication')
+@ApiBearerAuth()
 export class CommunicationController {
     constructor(private readonly communicationService: CommunicationService) {}
 

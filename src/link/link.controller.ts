@@ -2,8 +2,11 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { LinkService } from './link.service';
 import { CreateLinkDto } from './dto/create-link.dto';
 import { UpdateLinkDto } from './dto/update-link.dto';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Link')
 @Controller('link')
+@ApiBearerAuth()
 export class LinkController {
     constructor(private readonly linkService: LinkService) {}
 
